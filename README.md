@@ -1,6 +1,6 @@
 # 洋仔脚本工具箱
 
-一键 Linux 服务器管理脚本，支持系统工具、Docker、建站工具、SSH 管理等常用运维操作。
+一键 Linux 服务器管理脚本，支持系统工具、Docker、建站工具、SSH 管理、游戏服务等常用运维操作。
 
 ## 快速使用
 
@@ -23,6 +23,16 @@ bash yangzai.sh sshroot
 ```
 
 `sshroot` 会自动识别系统版本，安装 OpenSSH Server，备份 SSH 配置，开启 root SSH 登录和密码登录，并重启 SSH 服务。
+
+## 仓库结构
+
+- `yangzai.sh`：推荐下载入口，适合 `wget` 直接获取。
+- `kejilion.sh`：完整工具箱主脚本副本，保留原项目入口文件名。
+- `cn/`, `en/`, `tw/`, `jp/`, `kr/`, `ru/`, `ir/`：多语言脚本版本。
+- `apps/`：应用入驻说明。
+- `tests/`：脚本烟测用例。
+- `PandoraNext/`：PandoraNext 示例配置。
+- `*.conf`, `*.cnf`, `*.ini`：脚本安装时使用的配置模板。
 
 ## 注意事项
 
