@@ -1,8 +1,8 @@
 # 洋仔脚本工具箱
 
-一键 Linux 服务器管理脚本，支持系统工具、Docker、建站工具、SSH 管理、游戏服务等常用运维操作。
+Linux 服务器运维脚本集合。主入口为 `yangzai.sh`，可直接通过 `wget` 获取运行。
 
-## 快速使用
+## 使用
 
 ```bash
 wget -O yangzai.sh https://raw.githubusercontent.com/Cason-z/yangzai/main/yangzai.sh
@@ -10,32 +10,31 @@ chmod +x yangzai.sh
 bash yangzai.sh
 ```
 
-也可以直接运行：
-
-```bash
-bash <(wget -qO- https://raw.githubusercontent.com/Cason-z/yangzai/main/yangzai.sh)
-```
-
-## 常用快捷命令
-
-```bash
-bash yangzai.sh sshroot
-```
-
-`sshroot` 会自动识别系统版本，安装 OpenSSH Server，备份 SSH 配置，开启 root SSH 登录和密码登录，并重启 SSH 服务。
-
 ## 仓库结构
 
-- `yangzai.sh`：推荐下载入口，适合 `wget` 直接获取。
-- `kejilion.sh`：完整工具箱主脚本副本，保留原项目入口文件名。
-- `cn/`, `en/`, `tw/`, `jp/`, `kr/`, `ru/`, `ir/`：多语言脚本版本。
-- `apps/`：应用入驻说明。
-- `tests/`：脚本烟测用例。
-- `PandoraNext/`：PandoraNext 示例配置。
-- `*.conf`, `*.cnf`, `*.ini`：脚本安装时使用的配置模板。
+```text
+.
+├── yangzai.sh                 # wget 主入口
+├── scripts/
+│   ├── core/                  # 完整主脚本副本
+│   ├── tools/                 # 独立工具脚本
+│   └── game/                  # 游戏服务脚本
+├── config/                    # 配置模板
+│   ├── keys/
+│   ├── mysql/
+│   ├── nginx/
+│   ├── php/
+│   ├── security/
+│   └── system/
+├── locales/                   # 多语言版本
+├── examples/                  # 示例配置
+├── docs/                      # 文档和更新日志
+├── tests/                     # 测试脚本
+└── tools/                     # 开发辅助工具
+```
 
-## 注意事项
+## 说明
 
-- 请使用 root 权限运行需要修改系统配置的功能。
-- 开启 root 密码登录会降低安全性，建议设置强密码、修改默认 SSH 端口，并按需开启防火墙或 Fail2Ban。
-- 仓库已通过 `.gitattributes` 固定 shell 脚本使用 LF 换行，避免 Linux 下出现 `$'\r': command not found`。
+- `yangzai.sh` 保持在仓库根目录，确保 Raw 地址稳定。
+- 其他脚本和配置按用途归档，减少根目录杂乱。
+- Shell 脚本统一使用 LF 换行。
