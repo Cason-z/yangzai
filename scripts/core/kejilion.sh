@@ -32,8 +32,8 @@ bootstrap_text_locale() {
 bootstrap_text_locale
 
 clear() {
-	if [ "${KJ_CLEAR_SCREEN:-0}" = "1" ]; then
-		command clear
+	if [ "${KJ_CLEAR_SCREEN:-1}" != "0" ]; then
+		command clear >/dev/null 2>&1 || printf '\033[H\033[2J\033[3J'
 	fi
 }
 
