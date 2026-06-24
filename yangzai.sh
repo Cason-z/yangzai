@@ -12,6 +12,7 @@ gl_zi='\033[35m'
 gl_kjlan='\033[96m'
 
 DEFAULT_GH_PROXY="https://gh.sub4i.cn/"
+export GH_PROXY_BASE="${GH_PROXY_BASE:-$DEFAULT_GH_PROXY}"
 
 
 bootstrap_text_locale() {
@@ -183,6 +184,15 @@ sed -i '/^alias k=/d' ~/.bashrc > /dev/null 2>&1
 sed -i '/^alias k=/d' ~/.profile > /dev/null 2>&1
 sed -i '/^alias k=/d' ~/.bash_profile > /dev/null 2>&1
 cp -f ./kejilion.sh ~/kejilion.sh > /dev/null 2>&1
+if [ ! -s ~/kejilion.sh ]; then
+	tmp_kejilion="$(mktemp)"
+	wget -qO "$tmp_kejilion" "${gh_proxy}raw.githubusercontent.com/Cason-z/yangzai/main/scripts/core/kejilion.sh" > /dev/null 2>&1 || true
+	if [ -s "$tmp_kejilion" ]; then
+		mv -f "$tmp_kejilion" ~/kejilion.sh > /dev/null 2>&1
+	else
+		rm -f "$tmp_kejilion" > /dev/null 2>&1
+	fi
+fi
 cp -f ~/kejilion.sh /usr/local/bin/k > /dev/null 2>&1
 ln -sf /usr/local/bin/k /usr/bin/k > /dev/null 2>&1
 

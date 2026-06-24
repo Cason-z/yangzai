@@ -12,6 +12,7 @@ gl_zi='\033[35m'
 gl_kjlan='\033[96m'
 
 DEFAULT_GH_PROXY="https://gh.sub4i.cn/"
+export GH_PROXY_BASE="${GH_PROXY_BASE:-$DEFAULT_GH_PROXY}"
 
 
 bootstrap_text_locale() {
