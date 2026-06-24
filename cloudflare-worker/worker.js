@@ -45,7 +45,7 @@ set -eu
 tmp="$(mktemp)"
 trap 'rm -f "$tmp"' EXIT INT TERM
 wget -qO "$tmp" "https://gh.sub4i.cn/raw.githubusercontent.com/Cason-z/yangzai/main/yangzai.sh"
-exec bash "$tmp" "$@"
+exec bash "$tmp" "$@" < /dev/tty
 `;
       return new Response(script, {
         status: 200,
