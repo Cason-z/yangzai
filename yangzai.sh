@@ -14,42 +14,6 @@ gl_kjlan='\033[96m'
 DEFAULT_GH_PROXY="https://gh.sub4i.cn/"
 export GH_PROXY_BASE="${GH_PROXY_BASE:-$DEFAULT_GH_PROXY}"
 
-disable_cdrom_apt_sources() {
-	if [ "$(id -u 2>/dev/null || echo 1)" != "0" ]; then
-		return
-	fi
-
-	if [ -f /etc/apt/sources.list ]; then
-		sed -i -E 's|^[[:space:]]*deb[[:space:]]+cdrom:|# &|' /etc/apt/sources.list
-	fi
-
-	local f
-	for f in /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources; do
-		[ -e "$f" ] || continue
-		sed -i -E 's|^[[:space:]]*deb[[:space:]]+cdrom:|# &|' "$f" 2>/dev/null || true
-		sed -i -E 's|^[[:space:]]*URIs:[[:space:]]*cdrom:|# &|' "$f" 2>/dev/null || true
-	done
-}
-disable_cdrom_apt_sources
-
-
-bootstrap_text_locale() {
-	export LANG=C.UTF-8
-	export LC_ALL=C.UTF-8
-	export LANGUAGE=C.UTF-8
-
-	if [ "$(id -u 2>/dev/null || echo 1)" = "0" ] && command -v apt-get >/dev/null 2>&1; then
-		if ! dpkg -s locales >/dev/null 2>&1 || ! dpkg -s fonts-noto-cjk >/dev/null 2>&1; then
-			export DEBIAN_FRONTEND=noninteractive
-			apt-get update -qq >/dev/null 2>&1 || true
-			apt-get install -y locales fonts-noto-cjk >/dev/null 2>&1 || true
-			locale-gen C.UTF-8 >/dev/null 2>&1 || true
-			update-locale LANG=C.UTF-8 LC_ALL=C.UTF-8 >/dev/null 2>&1 || true
-		fi
-	fi
-}
-bootstrap_text_locale
-
 clear() {
 	if [ "${KJ_CLEAR_SCREEN:-1}" != "0" ]; then
 		command clear >/dev/null 2>&1 || printf '\033[H\033[2J\033[3J'
@@ -67,14 +31,21 @@ echo() {
 	done
 	while [ $# -gt 0 ]; do
 		local text="$1"
-		text="${text//★/*}"
-		text="${text//●/-}"
-		text="${text//♦/*}"
-		text="${text//✦/*}"
-		text="${text//✧/*}"
+		text="${text//★/}"
+		text="${text//●/}"
+		text="${text//♦/}"
+		text="${text//✦/}"
+		text="${text//✧/}"
 		text="${text//➜/>}"
 		text="${text//▶/>}"
 		text="${text//▶️/>}"
+		text="${text//🌟/}"
+		text="${text//⚠️/}"
+		text="${text//❌/}"
+		text="${text//✅/}"
+		text="${text//✔/}"
+		text="${text//✖/}"
+		text="${text//📦/}"
 		text="${text//╔/+}"
 		text="${text//╗/+}"
 		text="${text//╚/+}"
