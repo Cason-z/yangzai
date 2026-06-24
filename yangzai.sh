@@ -14,6 +14,24 @@ gl_kjlan='\033[96m'
 DEFAULT_GH_PROXY="https://gh.sub4i.cn/"
 export GH_PROXY_BASE="${GH_PROXY_BASE:-$DEFAULT_GH_PROXY}"
 
+disable_cdrom_apt_sources() {
+	if [ "$(id -u 2>/dev/null || echo 1)" != "0" ]; then
+		return
+	fi
+
+	if [ -f /etc/apt/sources.list ]; then
+		sed -i -E 's|^[[:space:]]*deb[[:space:]]+cdrom:|# &|' /etc/apt/sources.list
+	fi
+
+	local f
+	for f in /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources; do
+		[ -e "$f" ] || continue
+		sed -i -E 's|^[[:space:]]*deb[[:space:]]+cdrom:|# &|' "$f" 2>/dev/null || true
+		sed -i -E 's|^[[:space:]]*URIs:[[:space:]]*cdrom:|# &|' "$f" 2>/dev/null || true
+	done
+}
+disable_cdrom_apt_sources
+
 
 bootstrap_text_locale() {
 	export LANG=C.UTF-8
