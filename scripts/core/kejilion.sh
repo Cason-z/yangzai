@@ -14,6 +14,24 @@ gl_kjlan='\033[96m'
 DEFAULT_GH_PROXY="https://gh.sub4i.cn/"
 
 
+bootstrap_text_locale() {
+	export LANG=C.UTF-8
+	export LC_ALL=C.UTF-8
+	export LANGUAGE=C.UTF-8
+
+	if [ "$(id -u 2>/dev/null || echo 1)" = "0" ] && command -v apt-get >/dev/null 2>&1; then
+		if ! dpkg -s locales >/dev/null 2>&1 || ! dpkg -s fonts-noto-cjk >/dev/null 2>&1; then
+			export DEBIAN_FRONTEND=noninteractive
+			apt-get update -qq >/dev/null 2>&1 || true
+			apt-get install -y locales fonts-noto-cjk >/dev/null 2>&1 || true
+			locale-gen C.UTF-8 >/dev/null 2>&1 || true
+			update-locale LANG=C.UTF-8 LC_ALL=C.UTF-8 >/dev/null 2>&1 || true
+		fi
+	fi
+}
+bootstrap_text_locale
+
+
 normalize_proxy_base() {
 	local base="${1:-}"
 	base="${base%/}"
