@@ -3,6 +3,21 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname.replace(/^\/+/, "");
 
+    if (url.pathname === "/yangzai.sh") {
+      if (request.method === "HEAD") {
+        return new Response(null, {
+          status: 200,
+          headers: {
+            "content-type": "text/plain; charset=utf-8",
+            "cache-control": "no-store",
+          },
+        });
+      }
+      return fetch("https://raw.githubusercontent.com/Cason-z/yangzai/main/yangzai.sh", {
+        headers: request.headers,
+      });
+    }
+
     if (!path) {
       return new Response("ok", {
         status: 200,
