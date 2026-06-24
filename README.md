@@ -9,7 +9,7 @@ export GH_PROXY_BASE=https://gh.sub4i.cn/
 最短入口：
 
 ```bash
-bash <(curl -fsSL https://gh.sub4i.cn/yangzai.sh)
+wget -qO- https://gh.sub4i.cn/yangzai.sh | sh
 ```
 
 可选：如果你自己有 Cloudflare 代理域名，可以直接覆盖下载前缀。
