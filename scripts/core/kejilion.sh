@@ -37,6 +37,42 @@ clear() {
 	fi
 }
 
+echo() {
+	local args=()
+	local opt=()
+	while [ $# -gt 0 ]; do
+		case "$1" in
+			-*) opt+=("$1"); shift ;;
+			*) break ;;
+		esac
+	done
+	while [ $# -gt 0 ]; do
+		local text="$1"
+		text="${text//★/*}"
+		text="${text//●/-}"
+		text="${text//♦/*}"
+		text="${text//✦/*}"
+		text="${text//✧/*}"
+		text="${text//➜/>}"
+		text="${text//▶/>}"
+		text="${text//▶️/>}"
+		text="${text//╔/+}"
+		text="${text//╗/+}"
+		text="${text//╚/+}"
+		text="${text//╝/+}"
+		text="${text//╦/+}"
+		text="${text//╠/+}"
+		text="${text//╩/+}"
+		text="${text//╣/+}"
+		text="${text//═/-}"
+		text="${text//─/-}"
+		text="${text//║/|}"
+		args+=("$text")
+		shift
+	done
+	builtin echo "${opt[@]}" "${args[@]}"
+}
+
 
 normalize_proxy_base() {
 	local base="${1:-}"
