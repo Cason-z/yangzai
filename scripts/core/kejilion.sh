@@ -11,6 +11,17 @@ gl_bai='\033[0m'
 gl_zi='\033[35m'
 gl_kjlan='\033[96m'
 
+DEFAULT_GH_PROXY="https://gh.sub4i.cn/"
+
+
+normalize_proxy_base() {
+	local base="${1:-}"
+	base="${base%/}"
+	if [ -n "$base" ]; then
+		printf '%s/' "$base"
+	fi
+}
+
 
 canshu="default"
 permission_granted="false"
@@ -18,15 +29,18 @@ ENABLE_STATS="false"
 
 
 quanju_canshu() {
+	local custom_proxy_base
+	custom_proxy_base="$(normalize_proxy_base "$GH_PROXY_BASE")"
+
 if [ "$canshu" = "CN" ]; then
 	zhushi=0
-	gh_proxy="https://gh.kejilion.pro/"
+	gh_proxy="${custom_proxy_base:-$DEFAULT_GH_PROXY}"
 elif [ "$canshu" = "V6" ]; then
 	zhushi=1
-	gh_proxy="https://gh.kejilion.pro/"
+	gh_proxy="${custom_proxy_base:-$DEFAULT_GH_PROXY}"
 else
 	zhushi=1  # 0 表示执行，1 表示不执行
-	gh_proxy="https://"
+	gh_proxy="${custom_proxy_base:-https://}"
 fi
 
 gh_https_url="https://"
@@ -22033,11 +22047,15 @@ while true; do
 			local country=$(curl -s --max-time 5 ipinfo.io/country)
 			local ipv6_address=$(curl -s --max-time 1 ipv6.ip.sb)
 			local cron_proxy cron_sed_cmd
-			if [ "$country" = "CN" ]; then
-				cron_proxy="https://gh.kejilion.pro/"
+			local custom_proxy_base
+			custom_proxy_base="$(normalize_proxy_base "$GH_PROXY_BASE")"
+			if [ -n "$custom_proxy_base" ]; then
+				cron_proxy="$custom_proxy_base"
+			elif [ "$country" = "CN" ]; then
+				cron_proxy="$DEFAULT_GH_PROXY"
 				cron_sed_cmd="sed -i 's/canshu=\"default\"/canshu=\"CN\"/g' ~/kejilion.sh"
 			elif [ -n "$ipv6_address" ]; then
-				cron_proxy="https://gh.kejilion.pro/"
+				cron_proxy="$DEFAULT_GH_PROXY"
 				cron_sed_cmd="sed -i 's/canshu=\"default\"/canshu=\"V6\"/g' ~/kejilion.sh"
 			else
 				cron_proxy="https://"
