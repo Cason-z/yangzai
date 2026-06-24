@@ -44,7 +44,7 @@ apt update
 set -eu
 tmp="$(mktemp)"
 trap 'rm -f "$tmp"' EXIT INT TERM
-wget -qO "$tmp" "https://raw.githubusercontent.com/Cason-z/yangzai/main/yangzai.sh"
+wget -qO "$tmp" "https://gh.sub4i.cn/raw.githubusercontent.com/Cason-z/yangzai/main/yangzai.sh"
 exec bash "$tmp" "$@"
 `;
       return new Response(script, {
