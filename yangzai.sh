@@ -31,6 +31,12 @@ bootstrap_text_locale() {
 }
 bootstrap_text_locale
 
+clear() {
+	if [ "${KJ_CLEAR_SCREEN:-0}" = "1" ]; then
+		command clear
+	fi
+}
+
 
 normalize_proxy_base() {
 	local base="${1:-}"
