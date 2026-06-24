@@ -40,8 +40,19 @@ apt update
           },
         });
       }
-      return fetch("https://raw.githubusercontent.com/Cason-z/yangzai/main/yangzai.sh", {
-        headers: request.headers,
+      const script = `#!/bin/sh
+set -eu
+tmp="$(mktemp)"
+trap 'rm -f "$tmp"' EXIT INT TERM
+wget -qO "$tmp" "https://raw.githubusercontent.com/Cason-z/yangzai/main/yangzai.sh"
+exec bash "$tmp" "$@"
+`;
+      return new Response(script, {
+        status: 200,
+        headers: {
+          "content-type": "text/plain; charset=utf-8",
+          "cache-control": "no-store",
+        },
       });
     }
 
