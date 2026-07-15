@@ -3,5 +3,5 @@
 一键运行：
 
 ```bash
-wget -qO- https://gh.sub4i.cn/yangzai.sh | bash
+cd ~ && wget -qO kejilion.sh https://gh.sub4i.cn/yangzai.sh && bash kejilion.sh
 ```
